@@ -8,10 +8,11 @@ class MovieList(ListView):
     context_object_name = "movie_list"
     queryset = Movie.objects.all()
     paginate_by = 10
-    # def get_queryset(self):
-    #     if 'q' in self.request.GET:
-    #         queryset = Movie.objects.filter(
-    #             name__in=self.request.GET['q']).order_by('-update_at')
-    #     else:
-    #         queryset = Movie.objects.order_by('-update_at')
-    #     return queryset
+
+    def get_queryset(self):
+        if 'q' in self.request.GET:
+            queryset = Movie.objects.filter(
+                name__contains=self.request.GET['q']).order_by('-update_at')
+        else:
+            queryset = Movie.objects.order_by('-update_at')
+        return queryset
