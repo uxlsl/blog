@@ -1,11 +1,17 @@
 from django.shortcuts import render
+from django.views.generic import ListView
+from .models import Movie
 
 
-def index(request):
-    content = {'object_list': [{
-        'name': 'lsl',
-        'source': 'abc',
-        'url': 'www.qq.com',
-        'down_urls': [1, 2, 3, 4, 5]
-    }]}
-    return render(request, 'movie_list.html', content)
+class MovieList(ListView):
+    template_name = "movie_list.html"
+    context_object_name = "movie_list"
+    queryset = Movie.objects.all()
+    paginate_by = 10
+    # def get_queryset(self):
+    #     if 'q' in self.request.GET:
+    #         queryset = Movie.objects.filter(
+    #             name__in=self.request.GET['q']).order_by('-update_at')
+    #     else:
+    #         queryset = Movie.objects.order_by('-update_at')
+    #     return queryset

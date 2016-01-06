@@ -22,16 +22,33 @@
     <th>下载地址</th>
   </tr>
   <tr>
-    {% for movie in object_list %}
+    {% for movie in movie_list %}
+    <tr>
     <td> {{ forloop.counter }} </td>
     <td>{{  movie.name }}</td>
     <td>{{ movie.source }}</td>
     <td>{{  movie.url }}</td>
     <td>
-      {% for href in movie.down_urls %}
+      {% for href in movie.download_urls %}
       <a href="{{ href }}"> {{ forloop.counter }} </a>
       {% endfor %}
     </td>
     {% endfor %}
+    </tr>
   </tr>
 </table>
+{% if is_paginated %}
+<div class="pagination">
+  <span class="page-links">
+    {% if page_obj.has_previous %}
+    <a href="/cars?page={{ page_obj.previous_page_number }}">previous</a>
+    {% endif %}
+    <span class="page-current">
+      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+    </span>
+    {% if page_obj.has_next %}
+    <a href="/cars?page={{ page_obj.next_page_number }}">next</a>
+    {% endif %}
+  </span>
+</div>
+{% endif %}
