@@ -1,6 +1,8 @@
 # -*- coding:utf-8 -*-
 import os
 import json
+from django.db import IntegrityError, transaction
+from django.core.exceptions import FieldDoesNotExist, FieldError
 from django.core.management.base import BaseCommand, CommandError
 from movie.models import Movie
 
@@ -17,10 +19,12 @@ class Command(BaseCommand):
                 and os.path.isfile(option_list['path'][0])):
             try:
                 data = json.load(open(option_list['path'][0]))
-                for item in data:
-                    del item['_type']
-                    item['down_urls'] = json.dumps(item['down_urls'])
-                    Movie.objects.update_or_create(name=item['name'],
-                                                   defaults=item)
-            except ValueError as e:
+                with transaction.atomic():
+                    for item in data:
+                        del item['_type']
+                        item['down_urls'] = json.dumps(item['down_urls'])
+                        Movie.objects.update_or_create(name=item['name'],
+                                                       defaults=item)
+            except (ValueError, IntegrityError,
+                    FieldDoesNotExist, FieldError) as e:
                 raise CommandError(e.message)
