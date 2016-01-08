@@ -22,14 +22,14 @@
     <th>下载地址</th>
   </tr>
   <tr>
-    {% for movie in movie_list %}
+    {% for res in movie_list %}
     <tr>
     <td> {{ forloop.counter }} </td>
-    <td>{{  movie.name }}</td>
-    <td>{{ movie.source }}</td>
-    <td>{{  movie.url }}</td>
+    <td>{{  res.movie.name }}</td>
+    <td>{{ res.source }}</td>
+    <td>{{  res.url }}</td>
     <td>
-      {% for href in movie.download_urls %}
+      {% for href in res.download_urls %}
       <a href="{{ href }}"> {{ forloop.counter }} </a>
       {% endfor %}
     </td>
