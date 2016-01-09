@@ -13,8 +13,10 @@ class Movie(models.Model):
     """电影基本信息
     """
     name = models.CharField(unique=True, max_length=128, verbose_name="名称")
+    url = models.URLField(blank=True, null=True, verbose_name="所在网址")
     filmtype = models.CharField(max_length=32, blank=True, null=True,
                                 verbose_name="分类")
+    filmscore = models.FloatField(default=0, verbose_name="评分")
     director = models.CharField(max_length=128, blank=True, null=True,
                                 verbose_name="导演")
     starring = models.CharField(max_length=128,
@@ -25,12 +27,18 @@ class Movie(models.Model):
     update_at = models.DateTimeField(auto_now=True,
                                      verbose_name="更新时间")
 
+    class Meta:
+        verbose_name = "电影基本信息"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return "%s" % (self.name)
+
 
 class MovieRes(models.Model):
     """电影资源地址
     """
     movie = models.ForeignKey(Movie,
-                              models.SET_NULL,
                               blank=True,
                               null=True)
     url = models.URLField(verbose_name="所在网址")
@@ -40,6 +48,10 @@ class MovieRes(models.Model):
                                      verbose_name="时间")
     update_at = models.DateTimeField(auto_now=True,
                                      verbose_name="更新时间")
+
+    class Meta:
+        verbose_name = "电影资源"
+        verbose_name_plural = verbose_name
 
     def foo():
         doc = """Doc string"""

@@ -1,6 +1,8 @@
 # -*- coding:utf-8 -*-
 import os
 import json
+import jieba
+from django.conf import settings
 from django.db import IntegrityError, transaction
 from django.core.exceptions import (
     FieldDoesNotExist,
@@ -9,6 +11,13 @@ from django.core.exceptions import (
 )
 from django.core.management.base import BaseCommand, CommandError
 from movie.models import Movie, MovieRes
+
+
+def get_movie(name):
+    jieba.load_userdict(settings.MOVIE_DICT)
+    seg_list = list(jieba.cut(name))
+    print(seg_list)
+    return Movie.objects.get(name=seg_list[0])
 
 
 class Command(BaseCommand):
@@ -25,12 +34,13 @@ class Command(BaseCommand):
                 with transaction.atomic():
                     for item in data:
                         try:
-                            movie = Movie.objects.get(name=item.pop('name'))
-                            MovieRes.objects.update_or_create(movie=movie,
-                                                              url=item['url'],
-                                                              defaults=item)
+                            m = get_movie(item['name'])
+                            MovieRes.objects.update_or_create(
+                                movie=m,
+                                name=item['name'])
                         except ObjectDoesNotExist:
-                            pass
+                            self.stdout.write(
+                                "%s does not exist" % (item['name']))
             except (KeyError, IntegrityError,
                     FieldDoesNotExist, FieldError) as e:
                 raise CommandError(e.message)
