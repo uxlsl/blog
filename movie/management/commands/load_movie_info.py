@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 import os
 import json
+import ast
 from django.db import IntegrityError, transaction
 from django.core.exceptions import (
     FieldDoesNotExist,
@@ -21,10 +22,17 @@ class Command(BaseCommand):
         if (option_list['path']
                 and os.path.isfile(option_list['path'][0])):
             try:
-                data = json.load(open(option_list['path'][0]))
+                f = open(option_list['path'][0])
                 with transaction.atomic():
-                    for item in data:
+                    for item in f:
                         try:
+                            item = ast.literal_eval(item)
+                            del item['_type']
+                            del item['_key']
+                            if not 'filmtype' in item:
+                                continue
+                            item['filmtype'] = '|'.join(item['filmtype'])
+                            item['name'] = '|'.join(item['name'])
                             Movie.objects.update_or_create(name=item['name'],
                                                            defaults=item)
                         except ObjectDoesNotExist:

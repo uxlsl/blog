@@ -10,6 +10,7 @@ from django.core.exceptions import (
 )
 from django.core.management.base import BaseCommand, CommandError
 from movie.models import Movie
+from movie._global import SEP
 
 
 class Command(BaseCommand):
@@ -24,6 +25,6 @@ class Command(BaseCommand):
         if path:
             with open(path, 'w') as f:
                 for name, in Movie.objects.values_list('name'):
-                    n0 = name.split()[0]
-                    f.write("%s\n" % n0)
+                    for i in SEP.split(name):
+                        f.write("%s\n" % i)
             self.stdout.write("%s write success\n" % path)

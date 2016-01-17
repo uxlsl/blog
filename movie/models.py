@@ -38,11 +38,18 @@ class Movie(models.Model):
 class MovieRes(models.Model):
     """电影资源地址
     """
+    PIAOHUA = 'piaohua'
+    SOURCE_CHICES = (
+        (PIAOHUA, '飘花电影网'),
+    )
     movie = models.ForeignKey(Movie,
                               blank=True,
                               null=True)
+    name = models.CharField(unique=True, max_length=128, verbose_name="名称")
     url = models.URLField(verbose_name="所在网址")
-    source = models.CharField(max_length=128, verbose_name="下载来源")
+    source = models.CharField(max_length=128, choices=SOURCE_CHICES,
+                              default=PIAOHUA,
+                              verbose_name="下载来源")
     down_urls = models.TextField(verbose_name="下载地址,多个数据json)")
     create_at = models.DateTimeField(auto_now=True,
                                      verbose_name="时间")
@@ -57,6 +64,7 @@ class MovieRes(models.Model):
         doc = """Doc string"""
 
         def fget(self):
+            print(self.down_urls)
             return json.loads(self.down_urls)
 
         def fset(self, value):
