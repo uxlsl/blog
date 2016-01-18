@@ -8,7 +8,9 @@
 <form class="form-inline" method="GET" action="{% url 'movie_list' %}">
   <div class="form-group">
     <label for="exampleInputName2">电源名称</label>
-    <input name="q" type="text" class="form-control" id="exampleInputName2" placeholder="三国">
+    <input name="q" type="text" class="form-control"
+           id="exampleInputName2"
+           placeholder="{{ q }}">
   </div>
   <button type="submit" class="btn btn-default">搜索</button>
 </form>
@@ -16,7 +18,9 @@
 <table class="table table-bordered">
   <tr>
     <th>编号</th>
-    <th>名称</th>
+    <th>电影名</th>
+    <th>导演</th>
+    <th>演员</th>
     <th>来源</th>
     <th>网址</th>
     <th>下载地址</th>
@@ -24,11 +28,13 @@
   <tr>
     {% for res in movie_list %}
     <tr>
-    <td> {{ forloop.counter }} </td>
-    <td>{{  res.movie.name }}</td>
+    <td>{{ forloop.counter }}</td>
+    <td>{{ res.movie.name }}</td>
+    <td>{{ res.movie.director|default_if_none:'' }}</td>
+    <td>{{ res.movie.starring|default_if_none:'' }}
     <td>{{ res.get_source_display }}</td>
     <td>
-      <a href="{{ res.url }}">{{  res.url }}</a>
+      <a href="{{ res.url }}">地址</a>
     </td>
     <td>
       {% for href in res.download_urls %}
@@ -43,7 +49,7 @@
 <div class="pagination">
   <span class="page-links">
     {% if page_obj.has_previous %}
-    <a href="{% url 'movie_list' %}?page={{ page_obj.previous_page_number }}">
+    <a href="{% url 'movie_list' %}?page={{ page_obj.previous_page_number }}&q={{ q }}">
       <span> prev</span>
     </a>
     {% endif %}
@@ -51,7 +57,7 @@
       Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
     </span>
     {% if page_obj.has_next %}
-    <a href="{% url 'movie_list' %}?page={{ page_obj.next_page_number }}">
+    <a href="{% url 'movie_list' %}?page={{ page_obj.next_page_number }}&q={{ q }}">
       <span> next</span>
     </a>
     {% endif %}

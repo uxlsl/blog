@@ -18,3 +18,10 @@ class MovieList(ListView):
         else:
             queryset = MovieRes.objects.order_by('-update_at')
         return queryset
+
+    def get_context_data(self, **kwargs):
+        """增加这个目的在于在页码中增加一个参数!
+        """
+        ret = super(MovieList, self).get_context_data(**kwargs)
+        ret['q'] = self.request.GET.get('q', '')
+        return ret
