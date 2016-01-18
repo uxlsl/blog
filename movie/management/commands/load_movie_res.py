@@ -33,20 +33,13 @@ class Command(BaseCommand):
             o = Movie.objects.get(name=name)
             return o
         except (ObjectDoesNotExist, MultipleObjectsReturned):
-            try:
-                seg_list = list(jieba.cut(name))
-                n1 = seg_list[0]
-                o = Movie.objects.get(name__startswith=n1)
-                if o.name == n1:
-                    return o
-                elif len(o.name) > len(n1):
-                    if SEP.match(o.name[len(n1)]):
+            for n in jieba.cut(name):
+                try:
+                    o = Movie.objects.get(name__contains=n)
+                    if n in SEP.split(o.name):
                         return o
-                else:
+                except MultipleObjectsReturned:
                     raise ObjectDoesNotExist()
-
-            except MultipleObjectsReturned:
-                raise ObjectDoesNotExist()
 
     def handle(self, *args, **option_list):
         if (option_list['path']
@@ -56,6 +49,7 @@ class Command(BaseCommand):
                 with transaction.atomic(), tqdm(total=len(data)) as pbar:
                     for item in data:
                         item['name'] = item['name'].strip()
+                        item['down_urls'] = json.dumps(item['down_urls'])
                         item.pop('_type', None)
                         try:
                             m = self.get_movie(item['name'])

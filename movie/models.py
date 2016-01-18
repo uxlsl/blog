@@ -64,7 +64,6 @@ class MovieRes(models.Model):
         doc = """Doc string"""
 
         def fget(self):
-            print(self.down_urls)
             return json.loads(self.down_urls)
 
         def fset(self, value):
