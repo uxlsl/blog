@@ -27,7 +27,9 @@
     <td> {{ forloop.counter }} </td>
     <td>{{  res.movie.name }}</td>
     <td>{{ res.get_source_display }}</td>
-    <td>{{  res.url }}</td>
+    <td>
+      <a href="{{ res.url }}">{{  res.url }}</a>
+    </td>
     <td>
       {% for href in res.download_urls %}
       <a href="{{ href }}"> {{ forloop.counter }} </a>
