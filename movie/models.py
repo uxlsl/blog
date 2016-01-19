@@ -13,6 +13,7 @@ from django.core.exceptions import (
 import jsonfield
 import jieba
 from ._global import SEP
+from django.conf import settings
 
 
 class Movie(models.Model):
@@ -45,6 +46,7 @@ class Movie(models.Model):
         """
         尝试得到电影的真名
         """
+        jieba.load_userdict(settings.MOVIE_DICT)
         try:
             o = Movie.objects.get(name=name)
             return o

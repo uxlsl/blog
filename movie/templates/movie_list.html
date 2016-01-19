@@ -38,7 +38,10 @@
     <td>{{ res.movie.starring|default_if_none:'' }}
       -->
     <td>{{ res.get_source_display }}</td>
+    {% load tz %}
+    {% localtime on %}
     <td>{{ res.update_at|date:'Y-m-d H:i' }} </td>
+    {% endlocaltime %}
     <td>
       <a href="{{ res.url }}">地址</a>
     </td>
