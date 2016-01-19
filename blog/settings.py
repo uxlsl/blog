@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'bootstrap3',
     'django_extensions',
+    'rest_framework',
     'movie'
 )
 
