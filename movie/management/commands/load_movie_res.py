@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 import os
-import json
+import ast
 import jieba
 from tqdm import tqdm
 from django.conf import settings
@@ -45,12 +45,13 @@ class Command(BaseCommand):
         if (option_list['path']
                 and os.path.isfile(option_list['path'][0])):
             try:
-                data = json.load(open(option_list['path'][0]))
-                with transaction.atomic(), tqdm(total=len(data)) as pbar:
-                    for item in data:
+                lines = open(option_list['path'][0]).readlines()
+                with transaction.atomic(), tqdm(total=len(lines)) as pbar:
+                    for line in lines:
+                        item = ast.literal_eval(line)
                         item['name'] = item['name'].strip()
-                        item['down_urls'] = json.dumps(item['down_urls'])
                         item.pop('_type', None)
+                        item.pop('_key', None)
                         try:
                             m = self.get_movie(item['name'])
                             MovieRes.objects.update_or_create(
@@ -58,8 +59,6 @@ class Command(BaseCommand):
                                 name=item['name'],
                                 defaults=item)
                         except ObjectDoesNotExist:
-                            self.stdout.write(
-                                "%s does not exist" % (item['name']))
                             m = Movie.objects.create(name=item['name'])
                             MovieRes.objects.update_or_create(
                                 movie=m,

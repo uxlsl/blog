@@ -3,3 +3,4 @@ django-bootstrap3==6.2.2
 django-extensions==1.6.1
 jieba==0.38
 tqdm==3.7.8
+django-jsonfield==0.9.15

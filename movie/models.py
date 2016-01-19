@@ -5,8 +5,8 @@
 from __future__ import division, absolute_import
 from __future__ import print_function, unicode_literals
 
-import json
 from django.db import models
+import jsonfield
 
 
 class Movie(models.Model):
@@ -50,7 +50,7 @@ class MovieRes(models.Model):
     source = models.CharField(max_length=128, choices=SOURCE_CHICES,
                               default=PIAOHUA,
                               verbose_name="下载来源")
-    down_urls = models.TextField(verbose_name="下载地址,多个数据json)")
+    down_urls = jsonfield.JSONField()
     create_at = models.DateTimeField(auto_now=True,
                                      verbose_name="时间")
     update_at = models.DateTimeField(auto_now=True,
@@ -59,18 +59,3 @@ class MovieRes(models.Model):
     class Meta:
         verbose_name = "电影资源"
         verbose_name_plural = verbose_name
-
-    def foo():
-        doc = """Doc string"""
-
-        def fget(self):
-            return json.loads(self.down_urls)
-
-        def fset(self, value):
-            self.down_urls = json.dumps(value)
-
-        def fdel(self):
-            del self._down_urls
-        return locals()
-
-    download_urls = property(**foo())

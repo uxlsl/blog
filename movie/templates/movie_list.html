@@ -1,6 +1,6 @@
 {% load bootstrap3 %}
 {% bootstrap_css %}
-{% bootstrap_javascript %}
+{% bootstrap_javascript jquery=1 %}
 {% bootstrap_messages %}
 
 <h1 class="text-center"> 电影资源 </h1>
@@ -19,9 +19,12 @@
   <tr>
     <th>编号</th>
     <th>电影名</th>
+    <!--
     <th>导演</th>
     <th>演员</th>
+       -->
     <th>来源</th>
+    <th>更新时间</th>
     <th>网址</th>
     <th>下载地址</th>
   </tr>
@@ -30,14 +33,17 @@
     <tr>
     <td>{{ forloop.counter }}</td>
     <td>{{ res.movie.name }}</td>
+    <!--
     <td>{{ res.movie.director|default_if_none:'' }}</td>
     <td>{{ res.movie.starring|default_if_none:'' }}
+      -->
     <td>{{ res.get_source_display }}</td>
+    <td>{{ res.update_at|date:'Y-m-d H:i' }} </td>
     <td>
       <a href="{{ res.url }}">地址</a>
     </td>
     <td>
-      {% for href in res.download_urls %}
+      {% for href in res.down_urls %}
       <a href="{{ href }}"> {{ forloop.counter }} </a>
       {% endfor %}
     </td>
@@ -46,7 +52,7 @@
   </tr>
 </table>
 {% if is_paginated %}
-<div class="pagination">
+<div class="pagination col-md-6 col-md-offset-10">
   <span class="page-links">
     {% if page_obj.has_previous %}
     <a href="{% url 'movie_list' %}?page={{ page_obj.previous_page_number }}&q={{ q }}">
