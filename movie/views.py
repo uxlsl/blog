@@ -1,7 +1,8 @@
-from django.shortcuts import render
 from django.views.generic import ListView
 from django.db.models import Q
 from .models import MovieRes
+from rest_framework import generics
+from .serializers import MovieResSerializer
 
 
 class MovieList(ListView):
@@ -25,3 +26,8 @@ class MovieList(ListView):
         ret = super(MovieList, self).get_context_data(**kwargs)
         ret['q'] = self.request.GET.get('q', '')
         return ret
+
+
+class MovieResCreate(generics.CreateAPIView):
+    queryset = MovieRes.objects.all()
+    serializer_class = MovieResSerializer

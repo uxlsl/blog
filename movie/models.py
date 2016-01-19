@@ -6,7 +6,13 @@ from __future__ import division, absolute_import
 from __future__ import print_function, unicode_literals
 
 from django.db import models
+from django.core.exceptions import (
+    ObjectDoesNotExist,
+    MultipleObjectsReturned,
+)
 import jsonfield
+import jieba
+from ._global import SEP
 
 
 class Movie(models.Model):
@@ -34,6 +40,23 @@ class Movie(models.Model):
     def __str__(self):
         return "%s" % (self.name)
 
+    @staticmethod
+    def get_movie(name):
+        """
+        尝试得到电影的真名
+        """
+        try:
+            o = Movie.objects.get(name=name)
+            return o
+        except (ObjectDoesNotExist, MultipleObjectsReturned):
+            for n in jieba.cut(name):
+                try:
+                    o = Movie.objects.get(name__contains=n)
+                    if n in SEP.split(o.name):
+                        return o
+                except MultipleObjectsReturned:
+                    raise ObjectDoesNotExist()
+
 
 class MovieRes(models.Model):
     """电影资源地址
@@ -59,3 +82,20 @@ class MovieRes(models.Model):
     class Meta:
         verbose_name = "电影资源"
         verbose_name_plural = verbose_name
+
+    @staticmethod
+    def create(data):
+        data['name'] = data['name'].strip()
+        data.pop('_type', None)
+        data.pop('_key', None)
+        try:
+            m = Movie.get_movie(data['name'])
+            return MovieRes.objects.update_or_create(
+                movie=m,
+                name=data['name'],
+                defaults=data)[0]
+        except ObjectDoesNotExist:
+            m = Movie.objects.create(name=data['name'])
+            return MovieRes.objects.update_or_create(
+                movie=m,
+                defaults=data)[0]
