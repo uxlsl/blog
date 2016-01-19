@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import jieba
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -106,3 +107,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 MOVIE_DICT = os.path.join(BASE_DIR, 'movie/movie.dict')
+
+jieba.load_userdict(MOVIE_DICT)
