@@ -5,3 +5,4 @@ jieba==0.38
 tqdm==3.7.8
 django-jsonfield==0.9.15
 djangorestframework==3.3.2
+scrapinghub==1.7.0

@@ -106,3 +106,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 MOVIE_DICT = os.path.join(BASE_DIR, 'movie/movie.dict')
+
+# 定义spiders
+
+API_KEY = ''
+CREATE_URL = ""
+SPIDERS = [
+    #    (31146, 'piaohua_every_day'),
+]
