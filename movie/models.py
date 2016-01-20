@@ -15,6 +15,8 @@ import jieba
 from ._global import SEP
 from django.conf import settings
 
+is_load_userdict = False
+
 
 class Movie(models.Model):
     """电影基本信息
@@ -46,7 +48,10 @@ class Movie(models.Model):
         """
         尝试得到电影的真名
         """
-        jieba.load_userdict(settings.MOVIE_DICT)
+        global is_load_userdict
+        if not is_load_userdict:
+            jieba.load_userdict(settings.MOVIE_DICT)
+            is_load_userdict = True
         try:
             o = Movie.objects.get(name=name)
             return o
@@ -101,3 +106,14 @@ class MovieRes(models.Model):
             return MovieRes.objects.update_or_create(
                 movie=m,
                 defaults=data)[0]
+
+
+class MovieUpdate(models.Model):
+    """电影资源每次更新的记录
+    """
+    update_at = models.DateTimeField(auto_now_add=True, verbose_name="更新时间")
+
+    class Meta:
+        verbose_name = "电影更新时间"
+        verbose_name_plural = verbose_name
+        ordering = ('-update_at', )

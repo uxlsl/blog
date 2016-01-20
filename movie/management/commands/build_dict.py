@@ -26,5 +26,5 @@ class Command(BaseCommand):
             with open(path, 'w') as f:
                 for name, in Movie.objects.values_list('name'):
                     for i in SEP.split(name):
-                        f.write("%s\n" % i)
+                        f.write("%s\n" % i.strip())
             self.stdout.write("%s write success\n" % path)

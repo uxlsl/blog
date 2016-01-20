@@ -1,9 +1,15 @@
+{% extends 'bootstrap3/bootstrap3.html' %}
+{% block bootstrap3_title %}
+电影搜索
+{% endblock %}
 {% load bootstrap3 %}
 {% bootstrap_css %}
 {% bootstrap_javascript jquery=1 %}
-{% bootstrap_messages %}
 
-<h1 class="text-center"> 电影资源 </h1>
+
+{% block bootstrap3_content %}
+<h1 class="text-center"> 电影搜索 </h1>
+{% bootstrap_messages %}
 <div class="text-center">
 <form class="form-inline" method="GET" action="{% url 'movie_list' %}">
   <div class="form-group">
@@ -25,14 +31,13 @@
        -->
     <th>来源</th>
     <th>更新时间</th>
-    <th>网址</th>
     <th>下载地址</th>
   </tr>
   <tr>
     {% for res in movie_list %}
     <tr>
     <td>{{ forloop.counter }}</td>
-    <td>{{ res.movie.name }}</td>
+    <td><a href="{{ res.url }}">{{ res.movie.name }}</a></td>
     <!--
     <td>{{ res.movie.director|default_if_none:'' }}</td>
     <td>{{ res.movie.starring|default_if_none:'' }}
@@ -42,9 +47,6 @@
     {% localtime on %}
     <td>{{ res.update_at|date:'Y-m-d H:i' }} </td>
     {% endlocaltime %}
-    <td>
-      <a href="{{ res.url }}">地址</a>
-    </td>
     <td>
       {% for href in res.down_urls %}
       <a href="{{ href }}"> {{ forloop.counter }} </a>
@@ -73,3 +75,4 @@
   </span>
 </div>
 {% endif %}
+{% endblock %}

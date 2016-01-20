@@ -107,10 +107,13 @@ STATIC_URL = '/static/'
 
 MOVIE_DICT = os.path.join(BASE_DIR, 'movie/movie.dict')
 
+
 # 定义spiders
 
-API_KEY = ''
-CREATE_URL = ""
+API_KEY = '9b62163564fd4aa18707e1fa1cff4e86'
+CREATE_URL = "http://localhost:8000/movie/create"
 SPIDERS = [
-    #    (31146, 'piaohua_every_day'),
+    (31646, 'piaohua_every_day'),
 ]
+
+MAX_MOVIEUPDATE = 10
