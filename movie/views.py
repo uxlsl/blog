@@ -2,10 +2,12 @@ import pytz
 from django.views.generic import ListView
 from django.db.models import Q
 from django.contrib import messages
-from rest_framework import generics, mixins, viewsets
+from rest_framework import viewsets, generics
+from rest_framework import filters
 from django.conf import settings
 from .models import MovieRes, MovieUpdate, MovieNotify
 from .serializers import MovieResSerializer, MovieNotifySerializer
+from .filters import MovieNotifyFilter
 
 
 class MovieList(ListView):
@@ -48,4 +50,7 @@ class MovieResCreate(generics.CreateAPIView):
 
 class MovieNotifyViewSet(viewsets.ModelViewSet):
     queryset = MovieNotify.objects.all()
+    model = MovieNotify
     serializer_class = MovieNotifySerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_fields = ('is_can_notify',)
