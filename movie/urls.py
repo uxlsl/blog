@@ -1,13 +1,18 @@
 from django.conf.urls import url
+from rest_framework.routers import DefaultRouter
 from .views import (
     MovieList,
     MovieResCreate,
-    MovieNotifyList,
+    MovieNotifyViewSet,
 )
 
 
 urlpatterns = [
     url(r'^$', MovieList.as_view(), name="movie_list"),
     url(r'^create$', MovieResCreate.as_view(), name="movie_create"),
-    url(r'^movie_notify$', MovieNotifyList.as_view(), name="movie_notify")
 ]
+
+router = DefaultRouter()
+router.register(r'movie_notify', MovieNotifyViewSet)
+
+urlpatterns.extend(router.urls)

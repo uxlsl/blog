@@ -2,7 +2,7 @@ import pytz
 from django.views.generic import ListView
 from django.db.models import Q
 from django.contrib import messages
-from rest_framework import generics
+from rest_framework import generics, mixins, viewsets
 from django.conf import settings
 from .models import MovieRes, MovieUpdate, MovieNotify
 from .serializers import MovieResSerializer, MovieNotifySerializer
@@ -46,6 +46,8 @@ class MovieResCreate(generics.CreateAPIView):
         return super(MovieResCreate, self).post(request, *args, **kwargs)
 
 
-class MovieNotifyList(generics.ListAPIView):
-    queryset = MovieNotify.objects.filter(is_notify=False, is_can_notify=True)
+class MovieNotifyViewSet(mixins.ListModelMixin,
+                         mixins.UpdateModelMixin,
+                         viewsets.GenericViewSet):
+    queryset = MovieNotify.objects.all()
     serializer_class = MovieNotifySerializer
