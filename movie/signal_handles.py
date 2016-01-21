@@ -16,6 +16,8 @@ def movie_notify_handle(instance):
     for item in MovieNotify.objects.filter(is_notify=False,
                                            is_can_notify=False):
         if item.key in instance.name:
+            item.title = "你关注的{}有新电影更新".format(item.key)
+            item.content = "{}".format(instance.name)
             item.is_can_notify = True
             item.save()
 

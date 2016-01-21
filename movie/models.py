@@ -124,6 +124,8 @@ class MovieNotify(models.Model):
     """
     key = models.CharField(max_length=32, verbose_name="电影关健字")
     email = models.EmailField(verbose_name="要通知的邮件地址")
+    title = models.CharField(default='', max_length=32, verbose_name="主题")
+    content = models.TextField(default='', verbose_name="邮件内容")
     is_notify = models.BooleanField(default=False, verbose_name="是否已经通知")
     is_can_notify = models.BooleanField(default=False, verbose_name="是否可以通知")
     update_at = models.DateTimeField(auto_now_add=True, verbose_name="更新时间")

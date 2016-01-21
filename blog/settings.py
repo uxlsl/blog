@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'django_extensions',
     'rest_framework',
     'rest_framework_swagger',
+    'rest_framework_filters',
     'movie'
 )
 
@@ -116,6 +117,7 @@ BOOTSTRAP3 = {
     'javascript_url': '//7xnnj6.com1.z0.glb.clouddn.com/js-bootstrap.min.js',
 }
 
+
 # 定义spiders
 
 API_KEY = '9b62163564fd4aa18707e1fa1cff4e86'
@@ -136,3 +138,11 @@ Q_CLUSTER = {
     'bulk': 10,
     'orm': 'default'
 }
+
+HOST = 'http://uxlsl.pythonanywhere.com'
+
+
+# 邮箱配置
+EMAIL_HOST = 'smtp.sohu.com'
+EMAIL_HOST_USER = os.getenv('email_host_user', '')
+EMAIL_HOST_PASSWORD = os.getenv('email_host_password', '')
