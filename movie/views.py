@@ -7,7 +7,6 @@ from rest_framework import filters
 from django.conf import settings
 from .models import MovieRes, MovieUpdate, MovieNotify
 from .serializers import MovieResSerializer, MovieNotifySerializer
-from .filters import MovieNotifyFilter
 
 
 class MovieList(ListView):

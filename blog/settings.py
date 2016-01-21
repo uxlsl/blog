@@ -42,7 +42,6 @@ INSTALLED_APPS = (
     'django_extensions',
     'rest_framework',
     'rest_framework_swagger',
-    'rest_framework_filters',
     'movie'
 )
 

@@ -9,7 +9,6 @@ from django.core.exceptions import (
     ObjectDoesNotExist
 )
 from django.core.management.base import BaseCommand, CommandError
-from movie.models import Movie, MovieRes
 
 
 class Command(BaseCommand):
@@ -29,7 +28,7 @@ class Command(BaseCommand):
                             item = ast.literal_eval(item)
                             del item['_type']
                             del item['_key']
-                            if not 'filmtype' in item:
+                            if 'filmtype' not in item:
                                 continue
                             item['filmtype'] = '|'.join(item['filmtype'])
                             item['name'] = '|'.join(item['name'])
