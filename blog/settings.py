@@ -108,6 +108,12 @@ STATIC_URL = '/static/'
 MOVIE_DICT = os.path.join(BASE_DIR, 'movie/movie.dict')
 
 
+BOOTSTRAP3 = {
+    'jquery_url': '//7xnnj6.com1.z0.glb.clouddn.com/js-jquery.min.js',
+    'css_url': '//7xnnj6.com1.z0.glb.clouddn.com/cssbootstrap.min.css',
+    'javascript_url': '//7xnnj6.com1.z0.glb.clouddn.com/js-bootstrap.min.js',
+}
+
 # 定义spiders
 
 API_KEY = '9b62163564fd4aa18707e1fa1cff4e86'
