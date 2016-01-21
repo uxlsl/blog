@@ -2,11 +2,10 @@ import pytz
 from django.views.generic import ListView
 from django.db.models import Q
 from django.contrib import messages
-from django.utils import timezone
 from rest_framework import generics
 from django.conf import settings
-from .models import MovieRes, MovieUpdate
-from .serializers import MovieResSerializer
+from .models import MovieRes, MovieUpdate, MovieNotify
+from .serializers import MovieResSerializer, MovieNotifySerializer
 
 
 class MovieList(ListView):
@@ -45,3 +44,8 @@ class MovieResCreate(generics.CreateAPIView):
     def post(self, request, *args, **kwargs):
         MovieUpdate.objects.create()
         return super(MovieResCreate, self).post(request, *args, **kwargs)
+
+
+class MovieNotifyList(generics.ListAPIView):
+    queryset = MovieNotify.objects.filter(is_notify=False, is_can_notify=True)
+    serializer_class = MovieNotifySerializer
