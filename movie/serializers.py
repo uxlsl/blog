@@ -17,4 +17,4 @@ class MovieNotifySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MovieNotify
-        fields = ('key', 'email', 'is_can_notify', 'is_notify')
+        fields = ('id', 'key', 'email', 'is_can_notify', 'is_notify')

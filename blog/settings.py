@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'bootstrap3',
     'django_extensions',
     'rest_framework',
+    'rest_framework_swagger',
     'movie'
 )
 

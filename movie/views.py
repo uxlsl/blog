@@ -46,8 +46,6 @@ class MovieResCreate(generics.CreateAPIView):
         return super(MovieResCreate, self).post(request, *args, **kwargs)
 
 
-class MovieNotifyViewSet(mixins.ListModelMixin,
-                         mixins.UpdateModelMixin,
-                         viewsets.GenericViewSet):
+class MovieNotifyViewSet(viewsets.ModelViewSet):
     queryset = MovieNotify.objects.all()
     serializer_class = MovieNotifySerializer
