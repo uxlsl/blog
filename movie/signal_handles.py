@@ -4,9 +4,20 @@
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django_q.tasks import async
 
 from django.conf import settings
-from .models import MovieUpdate
+from .models import MovieUpdate, MovieRes, MovieNotify
+
+
+def movie_notify_handle(instance):
+    """将可以通知的标记
+    """
+    for item in MovieNotify.objects.filter(is_notify=False,
+                                           is_can_notify=False):
+        if item.key in instance.name:
+            item.is_can_notify = True
+            item.save()
 
 
 @receiver(post_save, sender=MovieUpdate)
@@ -17,3 +28,10 @@ def my_handler(sender, **kwargs):
         for i in MovieUpdate.objects.all().order_by(
                 '-update_at')[settings.MAX_MOVIEUPDATE:]:
             i.delete()
+
+
+@receiver(post_save, sender=MovieRes)
+def movie_notify(sender, instance, **kwargs):
+    """电影通知
+    """
+    async('movie.signal_handles.movie_notify_handle', instance)

@@ -117,3 +117,17 @@ class MovieUpdate(models.Model):
         verbose_name = "电影更新时间"
         verbose_name_plural = verbose_name
         ordering = ('-update_at', )
+
+
+class MovieNotify(models.Model):
+    """电影通知
+    """
+    key = models.CharField(max_length=32, verbose_name="电影关健字")
+    email = models.EmailField(verbose_name="要通知的邮件地址")
+    is_notify = models.BooleanField(default=False, verbose_name="是否已经通知")
+    is_can_notify = models.BooleanField(default=False, verbose_name="是否可以通知")
+    update_at = models.DateTimeField(auto_now_add=True, verbose_name="更新时间")
+
+    class Meta:
+        verbose_name = "电影通知"
+        verbose_name_plural = verbose_name

@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_q',
     'bootstrap3',
     'django_extensions',
     'rest_framework',
@@ -121,5 +122,16 @@ CREATE_URL = "http://localhost:8000/movie/create"
 SPIDERS = [
     (31646, 'piaohua_every_day'),
 ]
-
+# 最大更新数据记录保存数量
 MAX_MOVIEUPDATE = 10
+
+
+Q_CLUSTER = {
+    'name': 'DjangORM',
+    'workers': 4,
+    'timeout': 90,
+    'retry': 120,
+    'queue_limit': 50,
+    'bulk': 10,
+    'orm': 'default'
+}
