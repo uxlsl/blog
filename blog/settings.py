@@ -120,7 +120,7 @@ BOOTSTRAP3 = {
 # 定义spiders
 
 API_KEY = '9b62163564fd4aa18707e1fa1cff4e86'
-CREATE_URL = "http://localhost:8000/movie/create"
+CREATE_URL = "http://ux_lsl.pythonanywhere.com/movie/create"
 SPIDERS = [
     (31646, 'piaohua_every_day'),
 ]
@@ -145,3 +145,47 @@ HOST = 'http://uxlsl.pythonanywhere.com'
 EMAIL_HOST = 'smtp.sohu.com'
 EMAIL_HOST_USER = os.getenv('email_host_user', '')
 EMAIL_HOST_PASSWORD = os.getenv('email_host_password', '')
+
+
+# 日志配置
+
+LOGDIR = os.path.join(BASE_DIR, './log')
+
+if not os.path.exists(LOGDIR):
+    os.makedirs(LOGDIR)
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+        'movie': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(LOGDIR, 'movie.log'),
+            'formatter': 'verbose'
+        },
+        'mail_admins': {
+            'level': 'DEBUG',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'formatter': 'verbose'
+        }
+    },
+    'loggers': {
+        'movie': {
+            'handlers': ['console', 'movie', 'mail_admins'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
