@@ -1,13 +1,15 @@
 """
 通过信号进行一些操作!
 """
-
+import logging
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django_q.tasks import async
 
 from django.conf import settings
 from .models import MovieUpdate, MovieRes, MovieNotify
+
+logger = logging.getLogger(__name__)
 
 
 def movie_notify_handle(instance):
@@ -19,6 +21,7 @@ def movie_notify_handle(instance):
             item.title = "你关注的{}有新电影更新".format(item.key)
             item.content = "{}".format(instance.name)
             item.is_can_notify = True
+            logger.debug('one can notify %s', item)
             item.save()
 
 
