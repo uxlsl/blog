@@ -29,7 +29,8 @@ class Command(BaseCommand):
                           fail_silently=False)
                 logger.info("send mail to %s success, title %s", item['email'],
                             item['title'])
-                requests.patch(url, json={'id': item['id'], 'is_notify': True})
+                requests.patch(url + '/%d/' %
+                               (item['id']), json={'is_notify': True})
 
         except ValueError:
             logger.error('fail %s', traceback.format_exc())

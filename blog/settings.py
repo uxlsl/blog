@@ -155,9 +155,9 @@ Q_CLUSTER = {
 
 
 # 邮箱配置
-EMAIL_HOST = 'smtp.sohu.com'
-EMAIL_HOST_USER = os.getenv('email_host_user', '')
-EMAIL_HOST_PASSWORD = os.getenv('email_host_password', '')
+EMAIL_HOST = os.getenv('EMAIL_HOST', '')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
 
 
 # 日志配置
@@ -206,4 +206,4 @@ LOGGING = {
 # 定义一些默认URL
 
 CREAT_URL = 'http://' + HOST + '/movie/create'
-MOVIE_NOTIFY_URL = 'http://' + HOST + '/movie_notify'
+MOVIE_NOTIFY_URL = 'http://' + HOST + '/movie/movie_notify/'
