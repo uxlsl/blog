@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
+HOST = 'uxlsl.pythonanywhere.com'
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -27,7 +29,7 @@ SECRET_KEY = '7#5*=3!#8*oamaa+egc0-wn8$0dk8b%%yo&y=7^if!jq0!t%mt'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [HOST]
 
 
 # Application definition
@@ -134,7 +136,6 @@ BOOTSTRAP3 = {
 # 定义spiders
 
 API_KEY = '9b62163564fd4aa18707e1fa1cff4e86'
-CREATE_URL = "http://ux_lsl.pythonanywhere.com/movie/create"
 SPIDERS = [
     (31646, 'piaohua_every_day'),
 ]
@@ -151,8 +152,6 @@ Q_CLUSTER = {
     'bulk': 10,
     'orm': 'default'
 }
-
-HOST = 'http://uxlsl.pythonanywhere.com'
 
 
 # 邮箱配置
@@ -203,3 +202,8 @@ LOGGING = {
         },
     },
 }
+
+# 定义一些默认URL
+
+CREAT_URL = 'http://' + HOST + '/movie/create'
+MOVIE_NOTIFY_URL = 'http://' + HOST + '/movie_notify'

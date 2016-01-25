@@ -20,7 +20,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         try:
             params = {'is_can_notify': True}
-            url = settings.HOST + '/movie/movie_notify/'
+            url = settings.MOVIE_NOTIFY_URL
             r = requests.get(url, params=params)
             logger.debug("url %s data %s", url, r.json())
             for item in r.json():
