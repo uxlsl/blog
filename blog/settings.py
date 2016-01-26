@@ -122,18 +122,18 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, '/static/')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-# STATICFILES_DIRS = (
-#    os.path.join(BASE_DIR, "static"),
-# )
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
 
 MOVIE_DICT = os.path.join(BASE_DIR, 'movie/movie.dict')
 
 
 BOOTSTRAP3 = {
-    'jquery_url': STATIC_URL + 'js/jquery.min.js',
+    'jquery_url': STATIC_URL + 'js/jquery.js',
     'css_url': STATIC_URL + 'css/bootstrap.min.css',
     'javascript_url': STATIC_URL + 'js/bootstrap.min.js',
 }

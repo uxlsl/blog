@@ -1,0 +1,14 @@
+{% extends 'bootstrap3/bootstrap3.html' %}
+{% block bootstrap3_title %}
+电影
+{% endblock %}
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% block bootstrap3_content %}
+
+<ul class="nav nav-tabs">
+    <li ><a href={% url "movie_list" %}>电影搜索</a></li>
+    <li ><a href="#">电影订阅</a></li>
+</ul>
+
+{% endblock %}
