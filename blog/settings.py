@@ -211,5 +211,5 @@ LOGGING = {
 
 # 定义一些默认URL
 
-CREAT_URL = 'http://' + HOST + '/movie/create'
+CREATE_URL = 'http://' + HOST + '/movie/create'
 MOVIE_NOTIFY_URL = 'http://' + HOST + '/movie/movie_notify/'
